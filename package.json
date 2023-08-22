@@ -1,6 +1,7 @@
 {
   "name": "web-ai",
   "version": "1.0.0",
+  "type": "module",
   "description": "ai for web",
   "main": "index.js",
   "scripts": {
