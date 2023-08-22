@@ -1,0 +1,23 @@
+{
+  "name": "web-ai",
+  "version": "1.0.0",
+  "description": "ai for web",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zhangliu/web-ai.git"
+  },
+  "keywords": [
+    "web",
+    "ai"
+  ],
+  "author": "zhangliu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zhangliu/web-ai/issues"
+  },
+  "homepage": "https://github.com/zhangliu/web-ai#readme"
+}
