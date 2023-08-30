@@ -1,7 +1,6 @@
 {
   "name": "web-ai",
   "version": "1.0.0",
-  "type": "module",
   "description": "ai for web",
   "main": "index.js",
   "scripts": {
@@ -23,5 +22,10 @@
   "homepage": "https://github.com/zhangliu/web-ai#readme",
   "dependencies": {
     "openai": "^4.0.1"
+  },
+  "overrides": {
+    "nightmare": {
+      "electron": "11.0.0"
+    }
   }
 }
