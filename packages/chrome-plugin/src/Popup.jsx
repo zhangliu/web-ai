@@ -27,7 +27,7 @@ export default () => {
     }
 
     const getAnswer = async (prompt) => {
-        const res = await fetch('https://www.baidu.com');
+        const res = await fetch(`http://0.0.0.0:3033/question?prompt=${prompt}`);
         const content = await res.text();
         console.log(content, 'xxxxxxxxxxxxxxxxxx');
     }
