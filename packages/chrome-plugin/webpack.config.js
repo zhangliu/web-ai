@@ -32,7 +32,9 @@ module.exports = {
             loader: 'class-to-css-loader',
             options: {
               type: 'react',
-              rules: [],
+              rules: [
+                { key: 'ww', valReg: /^bw$/, css: 'word-wrap: break-word' },
+              ],
             },
           },
         ],
