@@ -22,7 +22,14 @@ export default () => {
         inputRef.current.value = '';
         talks.push({ prompt });
         setTalks([...talks]);
+        getAnswer(prompt);
         console.log('send message', prompt);
+    }
+
+    const getAnswer = async (prompt) => {
+        const res = await fetch('https://www.baidu.com');
+        const content = await res.text();
+        console.log(content, 'xxxxxxxxxxxxxxxxxx');
     }
 
     const renderTalks = () => {
