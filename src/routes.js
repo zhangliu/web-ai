@@ -4,10 +4,10 @@ const Router = require('koa-router');
 const router = new Router();
 
 router.get('/question', (ctx, next) => {
-    const prompt = (ctx.query || {}).prompt;
-    console.log('get question:', prompt);
-    if (!prompt) throw new Error('no prompt!');
-    ctx.body = prompt;
+    const question = (ctx.query || {}).question;
+    console.log('get question:', question);
+    if (!question) throw new Error('no question!');
+    ctx.body = question;
     next();
 });
 

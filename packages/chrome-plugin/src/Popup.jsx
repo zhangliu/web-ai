@@ -18,18 +18,20 @@ export default () => {
     }, [inputRef.current]);
 
     const onSend = () => {
-        const prompt = inputRef.current.value;
+        const question = inputRef.current.value;
         inputRef.current.value = '';
-        talks.push({ prompt });
+        const talk = { question, answer: '等待答案中...' };
+        talks.push(talk);
         setTalks([...talks]);
-        getAnswer(prompt);
-        console.log('send message', prompt);
+        getAnswer(talk);
+        console.log('send message', question);
     }
 
-    const getAnswer = async (prompt) => {
-        const res = await fetch(`http://0.0.0.0:3033/question?prompt=${prompt}`);
+    const getAnswer = async (talk) => {
+        const res = await fetch(`http://0.0.0.0:3033/question?question=${talk.question}`);
         const content = await res.text();
-        console.log(content, 'xxxxxxxxxxxxxxxxxx');
+        talk.answer = content;
+        setTalks([...talks]);
     }
 
     const renderTalks = () => {
@@ -37,10 +39,10 @@ export default () => {
             return (
                 <div className="d:f fd:c mt:10" key={key}>
                     <div className="d:f jc:fe c:fff">
-                        <div className="maw:80% p:8 bw:1 bs:s bc:ddd br:8 bgc:3b3abe ww:bw">{talk.prompt}</div>
+                        <div className="maw:80% p:8 bw:1 bs:s bc:ddd br:8 bgc:3b3abe ww:bw">{talk.question}</div>
                     </div>
                     <div className="d:f jc:fs mt:8">
-                        <div className="maw:80% p:8 bw:1 bs:s bc:ddd br:8 ww:bw">等待答案中</div>
+                        <div className="maw:80% p:8 bw:1 bs:s bc:ddd br:8 ww:bw">{talk.answer}</div>
                     </div>
                 </div>
             )
