@@ -21,7 +21,7 @@ const defaultPrompt = `
 async function main() {
     const html = fs.readFileSync(`${__dirname}/src/assets/htmls/demo1.html`).toString();
     await ng.init();
-    await ng.prompt(defaultPrompt);
+    // await ng.prompt(defaultPrompt);
     await ng.prompt(`html 内容如下：${html}`);
     await ng.prompt(`请帮我点击一下发布按钮`);
     // realizeHtml(html);

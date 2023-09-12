@@ -2,7 +2,8 @@ const Nightmare = require('../../../third_packages/nightmare');
 const ng = Nightmare({
     show: true,
     webPreferences: { partition: 'persist:web-ai' },
-    typeInterval: 10,
+    typeInterval: 1,
+    waitTimeout: 1000 * 60 * 3, // 3 分钟
     // openDevTools: { mode: 'detach' },
 });
 
@@ -24,13 +25,14 @@ ng.prompt = async (prompt) => {
                 const children = footer.previousSibling.previousSibling.lastChild.children || [];
                 const message = (children[0] || {}).innerText;
                 if (!message) continue;
+                return message;
                 if (message !== prompt) continue;
                 if (children.length >= 4) return children[1].innerText;
             }
         }, formatedPrompt);
-    console.log('--------------start--------------');
+    // console.log('--------------start--------------');
     console.log(`${formatedPrompt} \n==>\n ${result}`);
-    console.log('***************end****************');
+    // console.log('***************end****************');
     return result;
 }
 
