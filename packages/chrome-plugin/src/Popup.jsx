@@ -2,10 +2,10 @@ import React from 'react';
 
 export default () => {
     return (
-        <div className="w:360 h:480 p:r">
-            <div className="h:100% pb:46">
-                <div className="h:100% bgc:ff0000">
-    444
+        <div className="w:360 h:560 p:r">
+            <div className="h:100% pb:56" style={{ boxSizing: 'border-box' }}>
+                <div className="h:100% bc:ddd bs:s bw:1 br:2 p:10">
+    44432
                 </div>
             </div>
             <div className="d:f ai:c jc:sb p:f b:10 l:0 w:100%">
