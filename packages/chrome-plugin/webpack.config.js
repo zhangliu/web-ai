@@ -5,7 +5,6 @@ module.exports = {
   entry: {
     popup: './popup.js',
     contentScript: './contentScript.js',
-    manifest: './manifest.json',
   },
   // mode: "development",
   output: {
