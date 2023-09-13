@@ -4,7 +4,7 @@
   "description": "webai chrome plugin",
   "main": "popup.js",
   "scripts": {
-    "build": "rm -rf ./dist && webpack && cp ./manifest.json ./dist/",
+    "build": "rm -rf ./dist && webpack && cp ./public/* ./dist/",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

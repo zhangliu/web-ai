@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 
+const ACTION = 'web-ai-runJs';
+
 export default () => {
     const inputRef = useRef();
     const [talks, setTalks] = useState([]);
@@ -17,21 +19,27 @@ export default () => {
         return () => inputRef.current.removeEventListener('keydown', onKeyDown);
     }, [inputRef.current]);
 
-    const onSend = () => {
+    const onSend = async () => {
         const question = inputRef.current.value;
         inputRef.current.value = '';
         const talk = { question, answer: '等待答案中...' };
         talks.push(talk);
         setTalks([...talks]);
-        getAnswer(talk);
-        console.log('send message', question);
+        const answer = await getAnswer(talk);
+        console.log(`get answer:`, answer);
+        talk.answer = answer;
+        setTalks([...talks]);
+
+        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+            chrome.tabs.sendMessage(tabs[0].id, { action: ACTION, data: answer }, (response) => {
+              console.log("接收到来自内容脚本的响应:", response);
+            });
+        });
     }
 
     const getAnswer = async (talk) => {
         const res = await fetch(`http://0.0.0.0:3033/question?question=${talk.question}`);
-        const content = await res.text();
-        talk.answer = content;
-        setTalks([...talks]);
+        return await res.text();
     }
 
     const renderTalks = () => {
