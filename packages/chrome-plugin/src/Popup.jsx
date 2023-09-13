@@ -9,6 +9,8 @@ export default () => {
     useEffect(() => {
         if (!inputRef.current) return;
 
+        inputRef.current.focus();
+
         const onKeyDown = event => {
             if ((event.code || '').toLowerCase() !== 'enter') return;
             onSend();
