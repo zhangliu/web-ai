@@ -1,14 +1,21 @@
 
 const Router = require('koa-router');
+const aiController = require('./controllers/aiController');
 
 const router = new Router();
 
-router.get('/question', (ctx, next) => {
-    const question = (ctx.query || {}).question;
-    console.log('get question:', question);
-    if (!question) throw new Error('no question!');
-    ctx.body = question;
-    next();
-});
+const wrapper = (handler) => {
+    return async (ctx, next) => {
+        try {
+            await handler(ctx);
+            next()
+        } catch (error) {
+            ctx.status = 500;
+            ctx.body = `[Error] ${error.message}`;
+        }
+    }
+}
+
+router.get('/question', wrapper(aiController.getAnswer));
 
 module.exports = router.routes()

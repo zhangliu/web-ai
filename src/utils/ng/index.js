@@ -14,7 +14,6 @@ ng.init = async () => {
 }
 
 ng.prompt = async (prompt) => {
-    const formatedPrompt = prompt.trim().replaceAll('\n', '');
     const result = await ng
         .type('footer textarea', prompt)
         .click('footer > div > div > button:last-child')
@@ -23,16 +22,12 @@ ng.prompt = async (prompt) => {
                 await window.ng.utils.sleep(500);
                 const footer = document.querySelector('footer');
                 const children = footer.previousSibling.previousSibling.lastChild.children || [];
-                const message = (children[0] || {}).innerText;
-                if (!message) continue;
-                return message;
-                if (message !== prompt) continue;
-                if (children.length >= 4) return children[1].innerText;
+                const answerNode = children[1];
+                if (!answerNode) continue;
+                if (answerNode.getAttribute('data-complete') !== 'true') continue;
+                return answerNode.innerText;
             }
-        }, formatedPrompt);
-    // console.log('--------------start--------------');
-    console.log(`${formatedPrompt} \n==>\n ${result}`);
-    // console.log('***************end****************');
+        }, prompt);
     return result;
 }
 
