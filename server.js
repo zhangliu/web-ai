@@ -2,7 +2,7 @@ const Koa = require('koa');
 const routes = require('./src/routes');
 const cors = require('koa2-cors');
 
-const port = 3033;
+const port = 3036;
 const app = new Koa();
 
 app.use(routes);
