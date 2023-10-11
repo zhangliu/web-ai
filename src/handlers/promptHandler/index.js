@@ -28,6 +28,8 @@ const defaultTalks = [
     // }
 ];
 
+const getDefaultPrompt = () => '';
+
 const getPrompt = () => {
     const content = fs.readFileSync(filePath);
     const talks = JSON.parse(content);
@@ -43,6 +45,7 @@ const getPrompt = () => {
 const setPrompt = (prompt) => fs.writeFileSync(filePath, JSON.stringify(prompt));
 
 module.exports = {
+    getDefaultPrompt,
     getPrompt,
     setPrompt
 }

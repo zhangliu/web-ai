@@ -1,10 +1,10 @@
-const Nightmare = require('../../../third_packages/nightmare');
+const Nightmare = require('../../../third_packages/nightmare/lib/nightmare');
 const ng = Nightmare({
     show: true,
     webPreferences: { partition: 'persist:web-ai' },
-    // typeInterval: 100,
+    typeInterval: 10,
     waitTimeout: 1000 * 60 * 3, // 3 分钟
-    // openDevTools: { mode: 'detach' },
+    openDevTools: { mode: 'detach' },
 });
 
 ng.init = async () => {
@@ -14,7 +14,7 @@ ng.init = async () => {
 }
 
 ng.prompt = async (prompt) => {
-    console.log(`set prompt: ${prompt} ********************`)
+    console.log(`set prompt: ${prompt}`)
     const result = await ng
         .type('footer textarea', prompt)
         .click('footer > div > div > button:last-child')
@@ -26,10 +26,10 @@ ng.prompt = async (prompt) => {
                 const answerNode = children[1];
                 if (!answerNode) continue;
                 if (answerNode.getAttribute('data-complete') !== 'true') continue;
-                return answerNode.innerText;
+                return answerNode.children[1].innerText;
             }
         });
-    console.log(`get answer: ${result} ********************`)
+    console.log(`get answer: ${result}`)
     return result;
 }
 

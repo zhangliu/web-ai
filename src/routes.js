@@ -7,7 +7,7 @@ const router = new Router();
 const wrapper = (handler) => {
     return async (ctx, next) => {
         try {
-            console.log(`will handler req: ${ctx.url}-------------------`)
+            console.log(`will handler req: ${ctx.url}`)
             const result = await handler(ctx);
             ctx.body = result;
             next()
