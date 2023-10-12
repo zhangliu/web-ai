@@ -1,10 +1,11 @@
 const Nightmare = require('../../../third_packages/nightmare/lib/nightmare');
+const isDev = process.env.NODE_ENV === 'developmeng';
 const ng = Nightmare({
-    show: true,
+    show: isDev,
     webPreferences: { partition: 'persist:web-ai' },
     typeInterval: 10,
     waitTimeout: 1000 * 60 * 3, // 3 分钟
-    openDevTools: { mode: 'detach' },
+    openDevTools: isDev ? { mode: 'detach' } : undefined,
 });
 
 ng.init = async () => {
