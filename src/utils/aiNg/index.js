@@ -1,5 +1,5 @@
 const Nightmare = require('../../../third_packages/nightmare/lib/nightmare');
-const isDev = process.env.NODE_ENV === 'developmeng';
+const isDev = process.env.NODE_ENV === 'development';
 const ng = Nightmare({
     show: isDev,
     webPreferences: { partition: 'persist:web-ai' },
