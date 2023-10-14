@@ -9,11 +9,13 @@ const botMap = {};
 
 const getChatBot = async (chatId = '2ms7cmxdagq3r4dpy3h') => {
     if (botMap[chatId]) return botMap[chatId];
+
     browser = browser || await puppeteer.launch({headless: false, devtools: true});
     const page = await browser.newPage();
-    botMap[chatId] = page;
 
+    page.prompt = prompt.bind(page);
     page.tryLogin = tryLogin.bind(page);
+
     logger.info(`will open page: https://poe.com/chat/${chatId}`);
     await page.tryLogin(`https://poe.com/chat/${chatId}`);
 
@@ -29,9 +31,9 @@ const getChatBot = async (chatId = '2ms7cmxdagq3r4dpy3h') => {
     await page.waitForSelector('footer textarea');
     logger.info(`has find footer textarea element!`);
 
-    page.prompt = prompt.bind(page);
     await page.prompt('注意，我的每个问题都会带有类似：[一串数字] 的前缀，你可以直接忽略它，不要受到它的干扰。');
 
+    botMap[chatId] = page;
     return botMap[chatId];
 }
 
