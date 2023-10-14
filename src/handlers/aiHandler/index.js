@@ -1,6 +1,7 @@
 const logger = require('../../utils/logger');
-// const Nightmare = require('../../../third_packages/nightmare/lib/nightmare');
-const Nightmare = require('nightmare');
+const { sleep } = require('../../utils/time');
+const Nightmare = require('../../../third_packages/nightmare/lib/nightmare');
+// const Nightmare = require('nightmare');
 const isDev = process.env.NODE_ENV === 'development';
 
 const ngMap = {}
@@ -10,17 +11,20 @@ const getChatBot = async (chatId = '2izduy32d808lc12tqh') => {
 
     const ng = Nightmare({
         show: isDev,
-        // webPreferences: { partition: `persist:web-ai-${chatId}` },
-        webPreferences: { partition: `persist:web-ai` },
+        webPreferences: { partition: `persist:web-ai-${chatId}` },
+        // webPreferences: { partition: `persist:web-ai` },
         typeInterval: 10,
         waitTimeout: 10 * 1000,
-        openDevTools: isDev ? { mode: 'detach' } : undefined,
+        // openDevTools: isDev ? { mode: 'detach' } : undefined,
     });
     ngMap[chatId] = { bot: ng };
 
     logger.info(`will open page: https://poe.com/chat/${chatId}`);
     await ng.goto(`https://poe.com/chat/${chatId}`).inject('js', `${__dirname}/inject.js`);
 
+    await sleep(5000);
+    const innerHtml = await ng.evaluate(() => document.body.innerHTML);
+    logger.info(innerHtml);
     await ng.wait('footer textarea');
     logger.info(`has find footer textarea element!`);
 
