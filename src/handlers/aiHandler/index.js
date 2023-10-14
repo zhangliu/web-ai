@@ -1,5 +1,6 @@
 const logger = require('../../utils/logger');
-const Nightmare = require('../../../third_packages/nightmare/lib/nightmare');
+// const Nightmare = require('../../../third_packages/nightmare/lib/nightmare');
+const Nightmare = require('nightmare');
 const isDev = process.env.NODE_ENV === 'development';
 
 const ngMap = {}
