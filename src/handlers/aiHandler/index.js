@@ -10,7 +10,7 @@ const botMap = {};
 const getChatBot = async (chatId = '2ms7cmxdagq3r4dpy3h') => {
     if (botMap[chatId]) return botMap[chatId];
 
-    browser = browser || await puppeteer.launch({headless: false, devtools: true});
+    browser = browser || await puppeteer.launch({headless: !isDev, devtools: isDev});
     const page = await browser.newPage();
 
     page.prompt = prompt.bind(page);
