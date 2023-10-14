@@ -6,12 +6,14 @@ const isDev = process.env.NODE_ENV === 'development';
 
 let browser;
 const botMap = {};
+const userAgent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36';
 
 const getChatBot = async (chatId = '2ms7cmxdagq3r4dpy3h') => {
     if (botMap[chatId]) return botMap[chatId];
 
     browser = browser || await puppeteer.launch({headless: !isDev, devtools: isDev});
     const page = await browser.newPage();
+    await page.setUserAgent(userAgent);
 
     page.prompt = prompt.bind(page);
     page.tryLogin = tryLogin.bind(page);
