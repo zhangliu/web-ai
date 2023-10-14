@@ -28,7 +28,7 @@ const defaultTalks = [
     // }
 ];
 
-const getDefaultPrompt = () => '';
+const getDefaultPrompt = () => `注意，接下来我的每个问题都会带有类似：[一串数字] 的前缀，你可以直接忽略它`
 
 const getPrompt = () => {
     const content = fs.readFileSync(filePath);
