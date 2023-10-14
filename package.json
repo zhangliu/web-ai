@@ -28,11 +28,7 @@
     "koa2-cors": "^2.0.6",
     "moment": "^2.29.4",
     "nodemon": "^3.0.1",
-    "openai": "^4.0.1"
-  },
-  "overrides": {
-    "nightmare": {
-      "electron": "11.0.0"
-    }
+    "openai": "^4.0.1",
+    "puppeteer": "^21.3.8"
   }
 }
