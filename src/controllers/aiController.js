@@ -2,8 +2,14 @@ const { getChatBot } = require('../handlers/aiHandler');
 const logger = require('../utils/logger');
 
 const chatMap = {
-    '*': '2ms7cmxdagq3r4dpy3h',
-    'Ai助手测试群': '2ms7cmxdagq3r4dpy3h',
+    '*': {
+        chatId: '2ms7cmxdagq3r4dpy3h',
+        defaultPrompt: '',
+    },
+    'AI算卦': {
+        chatId: '2nbay0e94t3oar1x3wr',
+        defaultPrompt: ''
+    },
 };
   
 async function getAnswer(ctx) {
@@ -12,7 +18,7 @@ async function getAnswer(ctx) {
     if (!userId) throw new Error('Need userId!');
 
     logger.info(`will handle for user: ${userId}, question: ${question}`);
-    const aiBot = (await getChatBot(chatMap[userId] || chatMap[0]));
+    const aiBot = (await getChatBot(chatMap[userId] || chatMap['*']));
     try {
         const answer = await aiBot.prompt(question);
         return { code: 200, data: answer };

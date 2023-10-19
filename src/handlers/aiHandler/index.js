@@ -8,7 +8,7 @@ let browser;
 const botMap = {};
 const userAgent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36';
 
-const getChatBot = async (chatId = '2ms7cmxdagq3r4dpy3h') => {
+const getChatBot = async ({ chatId, defaultPrompt }) => {
     if (botMap[chatId]) return botMap[chatId];
 
     browser = browser || await puppeteer.launch({headless: !isDev, devtools: isDev});
@@ -33,7 +33,10 @@ const getChatBot = async (chatId = '2ms7cmxdagq3r4dpy3h') => {
     await page.waitForSelector('footer textarea');
     logger.info(`has find footer textarea element!`);
 
-    await page.prompt('注意，我的每个问题都会带有类似：[一串数字] 的前缀，你可以直接忽略它，不要受到它的干扰。');
+    await page.prompt(`
+        ${defaultPrompt || ''};
+        请注意，接下来我发给你的每个问题都会带有类似：[一串数字] 的前缀，你可以直接忽略它，不要受到它的干扰。
+    `);
 
     botMap[chatId] = page;
     return botMap[chatId];
