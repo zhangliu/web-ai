@@ -3,11 +3,11 @@ const logger = require('../utils/logger');
 
 const chatMap = {
     '*': {
-        chatId: '2ms7cmxdagq3r4dpy3h',
+        chatId: '2lhbagehfpn58peswnw',
         defaultPrompt: '',
     },
     'AI算卦': {
-        chatId: '2nbay0e94t3oar1x3wr',
+        chatId: '2nxvpm9gqd6i9zuajwt',
         defaultPrompt: ''
     },
 };
