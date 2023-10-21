@@ -70,7 +70,7 @@ const tryLogin = async function(target) {
 
 const prompt = async function (prompt) {
     const indexPrefix = `[${Date.now()}]`;
-    const promptWithIndex = `${indexPrefix} ${prompt}`;
+    const promptWithIndex = `${indexPrefix} ${prompt}`.replace(/\n/g, '');
     logger.info(`set prompt: ${promptWithIndex}`)
     await this.type('footer textarea', promptWithIndex);
     await this.click('footer > div > div > button:last-child')
