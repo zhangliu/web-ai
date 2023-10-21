@@ -18,6 +18,9 @@ async function getAnswer(ctx) {
     if (!userId) throw new Error('Need userId!');
 
     logger.info(`will handle for user: ${userId}, question: ${question}`);
+    const chatInfo = chatMap[userId];
+    if (!chatInfo) return { code: 200, data: '无法使用，请联系作者开通' }
+
     const aiBot = (await getChatBot(chatMap[userId] || chatMap['*']));
     try {
         const answer = await aiBot.prompt(question);
