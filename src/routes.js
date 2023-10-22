@@ -18,6 +18,6 @@ const wrapper = (handler) => {
     }
 }
 
-router.get('/question', wrapper(aiController.getAnswer));
+router.get('/wechat/prompt', wrapper(aiController.getAnswer));
 
 module.exports = router.routes()

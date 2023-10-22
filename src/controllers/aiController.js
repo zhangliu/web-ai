@@ -13,17 +13,17 @@ const chatMap = {
 };
   
 async function getAnswer(ctx) {
-    const { question, userId, isGroup} = ctx.query;
-    if (!question) throw new Error('Need Question!');
+    const { prompt, userId, isGroup} = ctx.query;
+    if (!prompt) throw new Error('Need Prompt!');
     if (!userId) throw new Error('Need userId!');
 
-    logger.info(`will handle for user: ${userId}, question: ${question}`);
+    logger.info(`will handle for user: ${userId}, prompt: ${prompt}`);
     const chatInfo = chatMap[userId] || chatMap['*'];
     if (!chatInfo) return { code: 200, data: '无法使用，请联系作者开通' }
 
     const aiBot = (await getChatBot(chatMap[userId] || chatMap['*']));
     try {
-        const answer = await aiBot.prompt(question);
+        const answer = await aiBot.prompt(prompt);
         return { code: 200, data: answer };
     } catch(err) {
         logger.error(err);
