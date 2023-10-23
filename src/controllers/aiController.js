@@ -10,6 +10,10 @@ const chatMap = {
         chatId: '2nxvpm9gqd6i9zuajwt',
         defaultPrompt: ''
     },
+    '上海吃喝': {
+        chatId: '2nnlzr0y3egefv6l1ys',
+        defaultPrompt: ''
+    }
 };
   
 async function getAnswer(ctx) {
