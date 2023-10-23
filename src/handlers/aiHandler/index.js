@@ -33,10 +33,11 @@ const getChatBot = async ({ chatId, defaultPrompt }) => {
     await page.waitForSelector('footer textarea');
     logger.info(`has find footer textarea element!`);
 
-    await page.prompt(`
-        ${defaultPrompt || ''};
-        请注意，接下来我发给你的每个问题都会带有类似：[一串数字] 的前缀，你可以直接忽略它，不要受到它的干扰。
-    `);
+    // await page.prompt(`
+    //     ${defaultPrompt || ''};
+    //     请注意，接下来我发给你的每个问题都会带有类似：[一串数字] 的前缀，你可以直接忽略它，不要受到它的干扰。
+    // `);
+    await page.prompt(`请注意，接下来我发给你的每个问题都会带有类似：[一串数字] 的前缀，你可以直接忽略它，不要受到它的干扰。`);
 
     botMap[chatId] = page;
     return botMap[chatId];
