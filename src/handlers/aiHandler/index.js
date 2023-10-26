@@ -47,7 +47,8 @@ const tryLogin = async function(target) {
     const cookiesFile = `${__dirname}/cookies.json`;
     const loginUrl = 'https://poe.com/login';
 
-    if (!fs.existsSync(cookiesFile)) fs.writeFileSync(cookiesFile, JSON.stringify([]));
+    // if (!fs.existsSync(cookiesFile)) fs.writeFileSync(cookiesFile, JSON.stringify([]));
+    if (!fs.existsSync(cookiesFile)) throw new Error('未登录，请联系作者进行登录！');
     let cookies = JSON.parse(fs.readFileSync(cookiesFile).toString());
 
     await this.setCookie(...cookies);

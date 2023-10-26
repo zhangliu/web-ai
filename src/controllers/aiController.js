@@ -25,8 +25,8 @@ async function getAnswer(ctx) {
     const chatInfo = chatMap[userId] || chatMap['*'];
     if (!chatInfo) return { code: 200, data: '无法使用，请联系作者开通' }
 
-    const aiBot = (await getChatBot(chatMap[userId] || chatMap['*']));
     try {
+        const aiBot = (await getChatBot(chatMap[userId] || chatMap['*']));
         const answer = await aiBot.prompt(prompt);
         return { code: 200, data: answer };
     } catch(err) {
