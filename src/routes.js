@@ -1,6 +1,7 @@
 
 const Router = require('koa-router');
 const aiController = require('./controllers/aiController');
+const wechatController = require('./controllers/wechatController');
 
 const router = new Router();
 
@@ -19,5 +20,6 @@ const wrapper = (handler) => {
 }
 
 router.get('/wechat/prompt', wrapper(aiController.getAnswer));
+router.get('/wechat/login-qr', wrapper(wechatController.getQR));
 
 module.exports = router.routes()
