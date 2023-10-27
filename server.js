@@ -1,10 +1,13 @@
 const Koa = require('koa');
-const routes = require('./src/routes');
 const cors = require('koa2-cors');
+const { bodyParser } = require("@koa/bodyparser");
+
+const routes = require('./src/routes');
 
 const port = 3030;
 const app = new Koa();
 
+app.use(bodyParser());
 app.use(routes);
 // see: https://github.com/zadzbw/koa2-cors
 app.use(cors({

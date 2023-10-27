@@ -20,6 +20,10 @@ const wrapper = (handler) => {
 }
 
 router.get('/wechat/prompt', wrapper(aiController.getAnswer));
+
+// 登录相关
 router.get('/wechat/login-qr', wrapper(wechatController.getQR));
+router.post('/wechat/uuid', wrapper(wechatController.postUUID));
+router.delete('/wechat/uuid', wrapper(wechatController.deleteUUID));
 
 module.exports = router.routes()

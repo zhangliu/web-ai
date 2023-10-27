@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script>{{jqueryCode}}</script>
+        <script>{{qrCode}}</script>
+    </head>
+    <body>
+        <div style="display: flex; justify-content: center; align-items: center; padding: 40px;">
+            <div id='qrcode' style='width:100px; height:100px;'></div>
+        </div>  
+        <script type="text/javascript">
+            const option = { width : 100, height : 100 }
+            const qrcode = new QRCode(document.getElementById("qrcode"), option);
+            qrcode.makeCode('{{url}}');
+        </script>
+    </body>
+</html>
