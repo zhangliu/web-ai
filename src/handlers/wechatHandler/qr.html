@@ -6,10 +6,10 @@
     </head>
     <body>
         <div style="display: flex; justify-content: center; align-items: center; padding: 40px;">
-            <div id='qrcode' style='width:100px; height:100px;'></div>
+            <div id='qrcode' style='width:320px; height:320px;'></div>
         </div>  
         <script type="text/javascript">
-            const option = { width : 100, height : 100 }
+            const option = { width : 320, height : 320 }
             const qrcode = new QRCode(document.getElementById("qrcode"), option);
             qrcode.makeCode('{{url}}');
         </script>
