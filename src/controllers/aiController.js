@@ -1,5 +1,6 @@
 const { getChatBot } = require('../handlers/aiHandler');
 const logger = require('../utils/logger');
+const { runTimeout } = require('../utils/runHelper');
 
 const chatMap = {
     '*': {
@@ -27,7 +28,7 @@ async function getAnswer(ctx) {
 
     try {
         const aiBot = (await getChatBot(chatMap[userId] || chatMap['*']));
-        const answer = await aiBot.prompt(prompt);
+        const answer = await runTimeout(() => aiBot.prompt(prompt), 30000);
         return { code: 200, data: answer };
     } catch(err) {
         logger.error(err);

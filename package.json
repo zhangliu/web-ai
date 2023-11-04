@@ -4,7 +4,8 @@
   "description": "ai for web",
   "main": "index.js",
   "scripts": {
-    "dev": "(pm2 delete server || true) && DEBUG=* NODE_ENV=development pm2 start server.js && pm2 log -f",
+    "dev": "NODE_ENV=development nodemon server.js",
+    "debug": "DEBUG=* NODE_ENV=development nodemon server.js",
     "prod": "(pm2 delete server || true) && pm2 start server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
