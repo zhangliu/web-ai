@@ -18,7 +18,8 @@ const chatMap = {
 };
   
 async function getAnswer(ctx) {
-    const { prompt, userId, isGroup} = ctx.query;
+    const { userId, isGroup} = ctx.query;
+    const { prompt } = ctx.request.body || {};
     if (!prompt) throw new Error('Need Prompt!');
     if (!userId) throw new Error('Need userId!');
 

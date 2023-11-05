@@ -19,7 +19,7 @@ const wrapper = (handler) => {
     }
 }
 
-router.get('/wechat/prompt', wrapper(aiController.getAnswer));
+router.post('/wechat/prompt', wrapper(aiController.getAnswer));
 
 // 登录相关
 router.get('/wechat/login-qr', wrapper(wechatController.getQR));
