@@ -5,8 +5,12 @@
   "main": "index.js",
   "scripts": {
     "dev": "NODE_ENV=development nodemon server.js",
+    "skl": "java -jar ./packages/sikulixide-2.0.5.jar",
     "debug": "DEBUG=* NODE_ENV=development nodemon server.js",
     "prod": "(pm2 delete server || true) && pm2 start server.js",
+    "baseContainer": "docker run --rm --user root -it --shm-size=512m -p 6901:6901 -p 3000:3000 -e VNC_PW=admin --name base-ai-container kasmweb/ubuntu-jammy-desktop:1.14.0-rolling",
+    "createZlImg": "(docker rmi zl-ai-img || true) && cd ./ai-img && docker build -t zl-ai-img .",
+    "zlContainer": "docker run --rm --user root -it --shm-size=512m -p 6901:6901 -p 3000:3000 -e VNC_PW=admin --name zl-ai-container zl-ai-img",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
