@@ -26,6 +26,6 @@ RUN cd projects && \
     cd web-ai && \
     git checkout dev && \
     eval $INIT_NVM && npm i && npm run prod
-RUN echo 'npm run prod' >> /home/kasm-default-profile/.bashrc
+RUN echo 'cd ~/projects/web-ai && npm run prod' >> /home/kasm-default-profile/.bashrc
 
 WORKDIR projects/web-ai
