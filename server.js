@@ -4,7 +4,7 @@ const { bodyParser } = require("@koa/bodyparser");
 
 const routes = require('./src/routes');
 
-const port = 3030;
+const port = 3000;
 const app = new Koa();
 
 app.use(bodyParser());
@@ -15,6 +15,6 @@ app.use(cors({
 }));
 
 // 启动服务器
-app.listen(port, () => {
+app.listen(port, '0.0.0.0', () => {
   console.log(`Server listening on port ${port}`);
 });

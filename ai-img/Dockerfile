@@ -25,6 +25,7 @@ RUN cd projects && \
     git clone https://github.com/zhangliu/web-ai.git && \
     cd web-ai && \
     git checkout dev && \
-    eval $INIT_NVM && npm i
+    eval $INIT_NVM && npm i && npm run prod
+RUN echo 'npm run prod' >> /home/kasm-default-profile/.bashrc
 
 WORKDIR projects/web-ai
