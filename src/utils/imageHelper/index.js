@@ -1,12 +1,29 @@
-const { exec } = require('../shell');
+// ignore_security_alert_file RCE
+var Jimp = require('jimp');
 const robotjs = require('robotjs');
+const { exec } = require('../shell');
 
-const findImg = (subImg, img = null) => {
+const findImg = async (targetImgPath) => {
     const size = robotjs.getScreenSize();
-    console.log(size);
-    // exec()
+    const bgImg = robotjs.screen.capture(0, 0, size.width, size.height);
+
+    const bgImgPath = `${process.cwd()}/tmp/bgImg.png`;
+    const pngImg = await convertToPngImg(bgImg);
+    pngImg.write(bgImgPath);
+
+    await exec(`bgImgPath=${bgImgPath} targetImgPath=${targetImgPath} python3 ${__dirname}/python/findImg.py`);
 };
 
-findImg(undefined)
+const convertToPngImg = async (bgImg) => new Promise((resolve, reject) => {
+    const pngImg = new Jimp(bgImg.width, bgImg.height, function(_, img) {
+        img.bitmap.data = bgImg.image;
+        img.getBuffer(Jimp.MIME_PNG, (err) => {
+            if (err) return reject(err);
+            resolve(pngImg);
+        });
+    });
+});
+
+// findImg(undefined)
 
 module.exports = { findImg };
