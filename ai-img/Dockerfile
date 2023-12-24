@@ -19,8 +19,10 @@ RUN eval $INIT_NVM && npm install -g node-gyp@10.0.1 && npm i -g robotjs@0.6.0
 RUN sudo apt install libopencv-dev python3-opencv -y
 
 # 启动 web-ai 服务
-RUN eval $INIT_NVM && npm i pm2 -g
 RUN mkdir -p projects
+
+# ARG CACHEBUST=1
+
 RUN cd projects && \
     git clone https://github.com/zhangliu/web-ai.git && \
     cd web-ai && \
