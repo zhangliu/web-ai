@@ -2,6 +2,7 @@
 const Router = require('koa-router');
 const aiController = require('./controllers/aiController');
 const wechatController = require('./controllers/wechatController');
+const tmpFileController = require('./controllers/tmpFileController');
 
 const router = new Router();
 
@@ -25,5 +26,9 @@ router.post('/wechat/prompt', wrapper(aiController.getAnswer));
 router.get('/wechat/login-qr', wrapper(wechatController.getQR));
 router.post('/wechat/uuid', wrapper(wechatController.postUUID));
 router.delete('/wechat/uuid', wrapper(wechatController.deleteUUID));
+
+// tmp file 处理
+router.get('/tmp-file', wrapper(tmpFileController.getFiles));
+router.get('/tmp-file/download', wrapper(tmpFileController.getFiles));
 
 module.exports = router.routes()
