@@ -29,6 +29,6 @@ router.delete('/wechat/uuid', wrapper(wechatController.deleteUUID));
 
 // tmp file 处理
 router.get('/tmp-file', wrapper(tmpFileController.getFiles));
-router.get('/tmp-file/download', wrapper(tmpFileController.getFiles));
+router.get('/tmp-file/:file', wrapper(tmpFileController.downLoad));
 
 module.exports = router.routes()

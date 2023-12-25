@@ -14,12 +14,17 @@ async function getFiles(ctx) {
         const stat = fs.statSync(filePath);
         if (!stat) return;
         if (!stat.isFile()) return;
-        result.push(filePath);
+        
+        result.push(`/tmp-file/${file}`);
     });
-
     return result;
+}
+
+const downLoad = (ctx) => {
+    console.log(ctx.request)
 }
 
 module.exports = {
     getFiles,
+    downLoad
 }
