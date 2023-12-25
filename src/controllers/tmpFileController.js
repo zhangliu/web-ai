@@ -2,10 +2,11 @@ const fs = require('fs');
 const path = require('path');
 
 const logger = require('../utils/logger');
+
+const tmpPath = `${process.cwd()}/tmp`; 
   
 async function getFiles(ctx) {
     // 指定需要遍历的文件夹路径
-    const tmpPath = `${process.cwd()}/tmp`; 
     const files = fs.readdirSync(tmpPath);
 
     const result = [];
@@ -21,7 +22,11 @@ async function getFiles(ctx) {
 }
 
 const downLoad = (ctx) => {
-    console.log(ctx.request)
+    const filename = path.basename(ctx.url);
+    const filePath = path.join(tmpPath, filename);
+
+    ctx.response.set(`Content-Disposition', 'attachment; filename=${filename}`);
+    ctx.response.body = fs.createReadStream(filePath);
 }
 
 module.exports = {
