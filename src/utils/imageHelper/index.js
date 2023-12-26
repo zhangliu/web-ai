@@ -4,6 +4,13 @@ const Jimp = require('jimp');
 const robotjs = require('robotjs');
 const { exec } = require('../shell');
 const logger = require('../logger');
+const runHelper = require('../runHelper');
+
+const waitImg = async (targetImgPath, timeout = 10000) => {
+    const onceTimeout = 3000;
+    const limit = Math.ceil(timeout/onceTimeout);
+    return await runHelper.runTimes(findImg.bind(null, targetImgPath), limit, onceTimeout);
+}
 
 const findImg = async (targetImgPath) => {
     const size = robotjs.getScreenSize();
@@ -23,7 +30,9 @@ const findImg = async (targetImgPath) => {
     const {x, y, width, height} = result.rect;
     const centerPoint = { x: x + width/2, y: y + height/2 };
 
-    return centerPoint;
+    return {
+        centerPoint
+    }
 };
 
 const checkMatchImg = async (rect) => {
@@ -47,4 +56,4 @@ const convertToPngImg = async (bgImg) => new Promise((resolve, reject) => {
 
 // findImg(`${process.cwd()}/tmp/browser.png`)
 
-module.exports = { findImg };
+module.exports = { findImg, waitImg };
