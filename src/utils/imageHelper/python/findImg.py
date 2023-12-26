@@ -17,7 +17,7 @@ def findImg(bgImgPath, targetImgPath):
     min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
     
     # 如果最大匹配程度大于阈值,就认为找到了匹配区域
-    threshold = 0.8
+    threshold = 0.95
     if max_val >= threshold:
         # 绘制矩形边框
         top_left = max_loc
