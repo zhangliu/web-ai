@@ -13,9 +13,23 @@ const findImg = async (targetImgPath) => {
 
     let result = await exec(`bgImgPath=${bgImgPath} targetImgPath=${targetImgPath} python3 ${__dirname}/python/findImg.py`);
     result = JSON.parse(result);
-    if (result) console.log('xxxxx3')
-    else console.log('xxxxx4')
+    if (!result) return null;
+
+    checkMatchImg(result.rect);
+
+    const {x, y, width, height} = result.rect;
+    const centerPoint = { x: x + width/2, y: y + height/2 };
+
+    return centerPoint;
 };
+
+const checkMatchImg = async (rect) => {
+    const { x, y, width, height } = rect;
+    const matchImg = robotjs.screen.capture(x, y, width, height);
+    const matchImgPath = `${process.cwd()}/tmp/matchImg.png`;
+    const pngImg = await convertToPngImg(matchImg);
+    pngImg.write(matchImgPath);
+}
 
 const convertToPngImg = async (bgImg) => new Promise((resolve, reject) => {
     const pngImg = new Jimp(bgImg.width, bgImg.height, function(_, img) {
