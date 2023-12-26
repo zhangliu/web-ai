@@ -11,7 +11,10 @@ const findImg = async (targetImgPath) => {
     const pngImg = await convertToPngImg(bgImg);
     pngImg.write(bgImgPath);
 
-    await exec(`bgImgPath=${bgImgPath} targetImgPath=${targetImgPath} python3 ${__dirname}/python/findImg.py`);
+    let result = await exec(`bgImgPath=${bgImgPath} targetImgPath=${targetImgPath} python3 ${__dirname}/python/findImg.py`);
+    result = JSON.parse(result);
+    if (result) console.log('xxxxx3')
+    else console.log('xxxxx4')
 };
 
 const convertToPngImg = async (bgImg) => new Promise((resolve, reject) => {
