@@ -33,6 +33,6 @@ def findImg(bgImgPath, targetImgPath):
         
         return json.dumps(rect)
     else:
-        return None, None
+        return json.dumps(None)
 
 print(findImg(bgImgPath, targetImgPath))
