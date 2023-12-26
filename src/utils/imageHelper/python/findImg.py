@@ -28,4 +28,4 @@ def findImg(bgImgPath, targetImgPath):
     else:
         return None, None
 
-print(searchImg('1.jpg', '2.jpg'))
+print(findImg(bgImgPath, targetImgPath))
