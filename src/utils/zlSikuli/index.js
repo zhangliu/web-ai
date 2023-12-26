@@ -54,6 +54,4 @@ const convertToPngImg = async (bgImg) => new Promise((resolve, reject) => {
     });
 });
 
-// findImg(`${process.cwd()}/tmp/browser.png`)
-
 module.exports = { findImg, waitImg };

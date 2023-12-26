@@ -1,19 +1,24 @@
 const fs = require('fs');
 const robotjs = require('robotjs');
 const logger = require('../../utils/logger');
-const imageHelper = require('../../utils/imageHelper');
+const zlSikuli = require('../../utils/zlSikuli');
 
-async function openBrowser() {
+const openBrowser = async () => {
     try {
-        logger('开始启动浏览器');
-        const { centerPoint } = await imageHelper.waitImg(`${__dirname}/browser.png`);
+        logger.info('开始启动浏览器');
+        const { centerPoint } = await zlSikuli.waitImg(`${__dirname}/browser.png`);
         robotjs.moveMouse(centerPoint.x, centerPoint.y );
         robotjs.mouseClick('left', true);
     } catch(err) {
+        logger.error('启动浏览器失败：', err.message);
+        throw err;
     }
 }
 
-openBrowser();
+const goBark = async () => {
+    await openBrowser();
+    await zlSikuli.waitImg();
+}
 
 module.exports = {
 }

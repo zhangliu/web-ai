@@ -3,6 +3,7 @@ const Router = require('koa-router');
 const aiController = require('./controllers/aiController');
 const wechatController = require('./controllers/wechatController');
 const tmpFileController = require('./controllers/tmpFileController');
+const testController = require('./controllers/testController');
 
 const router = new Router();
 
@@ -30,5 +31,9 @@ router.delete('/wechat/uuid', wrapper(wechatController.deleteUUID));
 // tmp file 处理
 router.get('/tmp-file', wrapper(tmpFileController.getFiles));
 router.get('/tmp-file/:file', tmpFileController.downLoad);
+
+// TODO test 处理，上线需要删除
+router.get('/test/cmd', testController.cmd);
+router.get('/test/getDeskImg', testController.getDeskImg);
 
 module.exports = router.routes()
