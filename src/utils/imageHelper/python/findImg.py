@@ -23,8 +23,8 @@ def findImg(bgImgPath, targetImgPath):
         top_left = max_loc
         rect = { 
             "rect": {
-                "x": top_left[0] + targetImg.shape[1] / 2, 
-                "y": top_left[1] + targetImg.shape[0] / 2,
+                "x": top_left[0], 
+                "y": top_left[1],
                 "width": targetImg.shape[1],
                 "height": targetImg.shape[0],
             },

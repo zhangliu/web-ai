@@ -1,7 +1,9 @@
 // ignore_security_alert_file RCE
-var Jimp = require('jimp');
+const fs = require('fs');
+const Jimp = require('jimp');
 const robotjs = require('robotjs');
 const { exec } = require('../shell');
+const logger = require('../logger');
 
 const findImg = async (targetImgPath) => {
     const size = robotjs.getScreenSize();
@@ -15,6 +17,7 @@ const findImg = async (targetImgPath) => {
     result = JSON.parse(result);
     if (!result) return null;
 
+    logger.info('find img:', result);
     checkMatchImg(result.rect);
 
     const {x, y, width, height} = result.rect;
@@ -27,6 +30,7 @@ const checkMatchImg = async (rect) => {
     const { x, y, width, height } = rect;
     const matchImg = robotjs.screen.capture(x, y, width, height);
     const matchImgPath = `${process.cwd()}/tmp/matchImg.png`;
+    fs.unlinkSync(matchImgPath);
     const pngImg = await convertToPngImg(matchImg);
     pngImg.write(matchImgPath);
 }
