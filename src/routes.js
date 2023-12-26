@@ -33,7 +33,7 @@ router.get('/tmp-file', wrapper(tmpFileController.getFiles));
 router.get('/tmp-file/:file', tmpFileController.downLoad);
 
 // TODO test 处理，上线需要删除
-router.get('/test/cmd', testController.cmd);
-router.get('/test/getDeskImg', testController.getDeskImg);
+router.get('/test/cmd', wrapper(testController.cmd));
+router.get('/test/getDeskImg', wrapper(testController.getDeskImg));
 
 module.exports = router.routes()
