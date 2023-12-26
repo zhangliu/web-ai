@@ -31,7 +31,7 @@ def findImg(bgImgPath, targetImgPath):
             "match": max_val # 匹配程度
         }
         
-        return rect
+        return json.dumps(rect)
     else:
         return None, None
 
