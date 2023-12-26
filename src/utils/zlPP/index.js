@@ -24,8 +24,8 @@ const openUrl = async (url) => {
 }
 
 (async () => {
-    openBrowser('https://bard.google.com/');
-    openUrl();
+    await openBrowser();
+    openUrl('https://bard.google.com/');
 })()
 
 module.exports = { openBrowser, openUrl };
