@@ -1,4 +1,5 @@
 import os
+import json
 import cv2
 
 bgImgPath = os.getenv('bgImgPath')
@@ -20,11 +21,17 @@ def findImg(bgImgPath, targetImgPath):
     if max_val >= threshold:
         # 绘制矩形边框
         top_left = max_loc
-        bottom_right = (top_left[0] + targetImg.shape[1], top_left[1] + targetImg.shape[0])
-        cv2.rectangle(bgImg, top_left, bottom_right, 255, 2)
+        rect = { 
+            "rect": {
+                "x": top_left[0] + targetImg.shape[1] / 2, 
+                "y": top_left[1] + targetImg.shape[0] / 2,
+                "width": targetImg.shape[1],
+                "height": targetImg.shape[0],
+            },
+            "match": max_val # 匹配程度
+        }
         
-        # 返回匹配区域左上角坐标和匹配程度
-        return top_left, bottom_right, max_val
+        return rect
     else:
         return None, None
 
