@@ -11,9 +11,9 @@ RUN echo $INIT_NVM >> /home/kasm-default-profile/.bashrc && \
     eval $INIT_NVM && \
     nvm install 16
 
-# 安装 robotjs，控制 鼠标 & 键盘
+# 安装 robotjs 依赖的库
 RUN apt install libxtst-dev libpng++-dev -y
-RUN eval $INIT_NVM && npm install -g node-gyp@10.0.1 && npm i -g robotjs@0.6.0
+RUN eval $INIT_NVM && npm install -g node-gyp@10.0.1
 
 # # 安装 opencv，能够进行图片识别
 RUN sudo apt install libopencv-dev python3-opencv -y
