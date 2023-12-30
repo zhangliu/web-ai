@@ -8,9 +8,8 @@ const openBrowser = async () => {
     try {
         logger.info('开始启动浏览器');
         const { centerPoint } = await zlSikuli.waitImg(`${__dirname}/imgs/chrome.png`);
-        robotjs.moveMouse(centerPoint.x, centerPoint.y );
+        robotjs.moveMouse(centerPoint.x, centerPoint.y);
         robotjs.mouseClick('left', true);
-        await findAddressBar();
     } catch(err) {
         logger.error('启动浏览器失败：', err.message);
         throw err;
@@ -20,13 +19,16 @@ const openBrowser = async () => {
 const findAddressBar = async () => zlSikuli.waitImg(`${__dirname}/imgs/addressBar.png`);
 
 const openUrl = async (url) => {
+    const img = await findAddressBar();
+    robotjs.moveMouse(img.centerPoint.x, img.centerPoint.y);
+    robotjs.mouseClick('left');
     await cp.copy(url);
     await cp.paste();
     await robotjs.keyTap('enter');
 }
 
 (async () => {
-    // await openBrowser();
+    await openBrowser();
     openUrl('https://bard.google.com/');
 })()
 
