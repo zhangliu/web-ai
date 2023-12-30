@@ -5,7 +5,7 @@ const { exec } = require('../utils/shell');
   
 async function cmd(ctx) {
     const cmd = decodeURIComponent(ctx.query.cmd);
-    await exec(`cd ${process.cwd()} && ${cmd}`);
+    return await exec(`cd ${process.cwd()} && ${cmd}`);
 }
 
 async function getDeskImg(ctx) {
