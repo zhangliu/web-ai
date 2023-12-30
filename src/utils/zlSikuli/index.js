@@ -25,7 +25,7 @@ const findImg = async (targetImgPath) => {
     if (!result) return null;
 
     logger.info('find img:', result);
-    checkMatchImg(result.rect);
+    saveMatchImg(result.rect);
 
     const {x, y, width, height} = result.rect;
     const centerPoint = { x: x + width/2, y: y + height/2 };
@@ -35,13 +35,17 @@ const findImg = async (targetImgPath) => {
     }
 };
 
-const checkMatchImg = async (rect) => {
-    const { x, y, width, height } = rect;
-    const matchImg = robotjs.screen.capture(x, y, width, height);
-    const matchImgPath = `${process.cwd()}/tmp/matchImg.png`;
-    fs.unlinkSync(matchImgPath);
-    const pngImg = await convertToPngImg(matchImg);
-    pngImg.write(matchImgPath);
+const saveMatchImg = async (rect) => {
+    try {
+        const { x, y, width, height } = rect;
+        const matchImg = robotjs.screen.capture(x, y, width, height);
+        const matchImgPath = `${process.cwd()}/tmp/matchImg.png`;
+        fs.unlinkSync(matchImgPath);
+        const pngImg = await convertToPngImg(matchImg);
+        pngImg.write(matchImgPath);
+    } catch(error) {
+        logger.warn('缓存匹配的图片失败', error.message);
+    }
 }
 
 const convertToPngImg = async (bgImg) => new Promise((resolve, reject) => {
