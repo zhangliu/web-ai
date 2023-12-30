@@ -6,9 +6,7 @@ const { exec } = require('../shell');
 const logger = require('../logger');
 const runHelper = require('../runHelper');
 
-const waitImg = async (targetImgPath, timeout = 10000) => {
-    const onceTimeout = 3000;
-    const limit = Math.ceil(timeout/onceTimeout);
+const waitImg = async (targetImgPath, limit = 10, onceTimeout = 2000) => {
     return await runHelper.runTimes(findImg.bind(null, targetImgPath), limit, onceTimeout);
 }
 
@@ -22,7 +20,7 @@ const findImg = async (targetImgPath) => {
 
     let result = await exec(`bgImgPath=${bgImgPath} targetImgPath=${targetImgPath} python3 ${__dirname}/python/findImg.py`);
     result = JSON.parse(result);
-    if (!result) return null;
+    if (!result) throw new Error(`can't find img: ${targetImgPath}`);
 
     logger.info('find img:', result);
     saveMatchImg(result.rect);
