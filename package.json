@@ -30,6 +30,7 @@
   "homepage": "https://github.com/zhangliu/web-ai#readme",
   "dependencies": {
     "@koa/bodyparser": "^5.0.0",
+    "copy-paste": "^1.5.3",
     "electron": "11.0.0",
     "jimp": "0.22.10",
     "koa": "^2.14.2",
