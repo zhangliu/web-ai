@@ -1,5 +1,6 @@
 const robotjs = require('robotjs');
 const cp = require('copy-paste');
+const {sleep} = require('./time');
 
 const copy = content => new Promise((resolve) => cp.copy(content, resolve));
 
