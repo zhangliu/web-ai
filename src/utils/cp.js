@@ -4,10 +4,8 @@ const cp = require('copy-paste');
 const {sleep} = require('./time');
 const { exec } = require('./shell');
 
-const copy = async content => {
-    await exec(`echo ${content} | xclip -selection clipboard`);
-    // return new Promise((resolve) => cp.copy(content, resolve));
-}
+// await exec(`echo ${content} | xclip -selection clipboard`);
+const copy = content => new Promise((resolve) => cp.copy(content, resolve));
 
 const paste = async () => {
     try {
