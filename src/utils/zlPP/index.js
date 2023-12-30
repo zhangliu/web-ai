@@ -20,11 +20,9 @@ const openBrowser = async () => {
 const findAddressBar = async () => zlSikuli.waitImg(`${__dirname}/imgs/addressBar.png`);
 
 const openUrl = async (url) => {
-    await robotjs.typeString(url);
-    await robotjs.keyTap('enter');
-
-    await cp.copy('hello cp');
+    await cp.copy(url);
     await cp.paste();
+    await robotjs.keyTap('enter');
 }
 
 (async () => {

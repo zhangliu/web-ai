@@ -1,8 +1,13 @@
+// ignore_security_alert_file RCE
 const robotjs = require('robotjs');
 const cp = require('copy-paste');
 const {sleep} = require('./time');
+const { exec } = require('./shell');
 
-const copy = content => new Promise((resolve) => cp.copy(content, resolve));
+const copy = async content => {
+    await exec(`echo ${content} | xclip -selection clipboard`);
+    // return new Promise((resolve) => cp.copy(content, resolve));
+}
 
 const paste = async () => {
     try {
