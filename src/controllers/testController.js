@@ -4,8 +4,12 @@ const robotjs = require('robotjs');
 const { exec } = require('../utils/shell');
   
 async function cmd(ctx) {
-    const cmd = decodeURIComponent(ctx.query.cmd);
-    return await exec(`cd ${process.cwd()} && ${cmd}`);
+    try {
+        const cmd = decodeURIComponent(ctx.query.cmd);
+        return await exec(`cd ${process.cwd()} && ${cmd}`);
+    } catch(error) {
+        return error.message;
+    }
 }
 
 async function getDeskImg(ctx) {
