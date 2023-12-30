@@ -17,6 +17,7 @@ RUN eval $INIT_NVM && npm install -g node-gyp@10.0.1
 
 # # 安装 opencv，能够进行图片识别
 # RUN sudo apt install libopencv-dev python3-opencv -y
+RUN sudo apt install libopencv-dev -y && pip3 install opencv-python
 
 # 启动 web-ai 服务
 RUN mkdir -p projects
