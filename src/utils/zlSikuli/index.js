@@ -6,7 +6,7 @@ const { exec } = require('../shell');
 const logger = require('../logger');
 const runHelper = require('../runHelper');
 
-const waitImg = async (targetImgPath, limit = 10, onceTimeout = 2000) => {
+const waitImg = async (targetImgPath, limit = 10, onceTimeout = 5000) => {
     return await runHelper.runTimes(findImg.bind(null, targetImgPath), limit, onceTimeout);
 }
 
