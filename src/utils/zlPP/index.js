@@ -25,8 +25,6 @@ const openUrl = async (url) => {
     await cp.copy(url);
     await cp.paste();
     await robotjs.keyTap('enter');
-
-    // bgImgPath=/home/kasm-user/projects/web-ai/tmp/bgImg.png targetImgPath=/home/kasm-user/projects/web-ai/src/utils/zlPP/imgs/chrome-mac.png python3 /home/kasm-user/projects/web-ai/src/utils/zlSikuli/python/findImg.py
 }
 
 (async () => {
