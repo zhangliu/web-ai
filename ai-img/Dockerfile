@@ -3,6 +3,7 @@ FROM kasmweb/ubuntu-jammy-desktop:1.14.0-rolling
 USER root
 
 RUN apt update
+ARG CACHEBUST=1
 
 ARG INIT_NVM='export NVM_DIR="$HOME/.nvm" &&  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"'
 # 安装 node 16，以及一些必要的包
