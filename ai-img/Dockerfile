@@ -1,4 +1,4 @@
-# https://hub.docker.com/r/kasmweb/ubuntu-jammy-desktop
+# https://hub.docker.com/r/kasmweb/ubuntu-jammy-desktop，登录用户：kasm_user
 FROM kasmweb/ubuntu-jammy-desktop:1.14.0-rolling
 USER root
 
