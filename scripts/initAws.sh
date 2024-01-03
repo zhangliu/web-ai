@@ -9,5 +9,5 @@ nvm use 16
 
 # 安装 docker
 sudo snap install docker
-chmod 666 /var/run/docker.sock
+sudo chmod 666 /var/run/docker.sock
 
