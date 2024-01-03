@@ -2,9 +2,9 @@
 set -e
 
 cd ~
-apt update
+sudo apt update
 # version 1.18.0-6ubuntu14.4
-apt install nginx-light -y
+sudo apt install nginx-light -y
 
 # 配置 nginx 将 80 请求代理到 localhost 3000 端口
 config="
@@ -17,13 +17,13 @@ server {
         }
     }
 "
-echo -e $config >> nginx_default
-cd /etc/nginx/sites-enabled/
-mv default .default_bak
-mv ~/nginx_default default
 
-systemctl enable nginx
-systemctl start nginx
-systemctl status nginx
+cd /etc/nginx/sites-enabled/
+sudo cp default .default_bak
+echo -e $config >> default
+
+sudo systemctl enable nginx
+sudo systemctl start nginx
+sudo systemctl status nginx
 
 echo "Nginx has been installed and started successfully!"
