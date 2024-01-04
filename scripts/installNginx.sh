@@ -20,6 +20,7 @@ server {
 
 cd /etc/nginx/sites-enabled/
 sudo cp default .default_bak
+sudo chmod 666 ./default
 echo -e $config > default
 
 sudo systemctl enable nginx
