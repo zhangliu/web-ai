@@ -16,14 +16,15 @@ const openBrowser = async () => {
     }
 }
 
-const findAddressBar = async () => zlSikuli.waitImg(`${__dirname}/imgs/addressBar.png`);
+const findAddressBar = async (limit = 10) => zlSikuli.waitImg(`${__dirname}/imgs/addressBar.png`, limit);
 
 const openUrl = async (url) => {
-    const img = await findAddressBar();
+    const img = await findAddressBar(2000);
     robotjs.moveMouse(img.centerPoint.x, img.centerPoint.y);
     robotjs.mouseClick('left');
-    await cp.copy(url);
-    await cp.paste();
+    // await cp.copy(url);
+    // await cp.paste();
+    robotjs.typeString(url);
     await robotjs.keyTap('enter');
 }
 
