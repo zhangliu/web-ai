@@ -2,7 +2,7 @@
 const Router = require('koa-router');
 const aiController = require('./controllers/aiController');
 const wechatController = require('./controllers/wechatController');
-const tmpFileController = require('./controllers/tmpFileController');
+// const tmpFileController = require('./controllers/tmpFileController');
 
 const router = new Router();
 
@@ -20,17 +20,19 @@ const wrapper = (handler) => {
     }
 }
 
-router.post('/wechat/prompt', wrapper(aiController.getAnswer));
+// 问答相关
+router.post('/bot/bard/prompt', wrapper(aiController.getAnswer));
+// router.post('/poe/prompt', wrapper(aiController.getAnswer));
 
 // 登录相关
 router.get('/wechat/login-qr', wrapper(wechatController.getQR));
 router.post('/wechat/uuid', wrapper(wechatController.postUUID));
 router.delete('/wechat/uuid', wrapper(wechatController.deleteUUID));
 
-// tmp file 处理
-router.get('/tmp-file', wrapper(tmpFileController.getFiles));
-router.get('/tmp-file/cmd', wrapper(tmpFileController.cmd));
-router.get('/tmp-file/getDeskImg', wrapper(tmpFileController.getDeskImg));
-router.get('/tmp-file/:file', tmpFileController.downLoad);
+// tmp file 处理, for docker
+// router.get('/tmp-file', wrapper(tmpFileController.getFiles));
+// router.get('/tmp-file/cmd', wrapper(tmpFileController.cmd));
+// router.get('/tmp-file/getDeskImg', wrapper(tmpFileController.getDeskImg));
+// router.get('/tmp-file/:file', tmpFileController.downLoad);
 
 module.exports = router.routes()

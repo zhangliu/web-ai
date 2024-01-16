@@ -5,11 +5,11 @@ const puppeteer = require('puppeteer');
 const isDev = process.env.NODE_ENV === 'development';
 
 let browser;
-const botMap = {};
+const chatMap = {};
 const userAgent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36';
 
-const getChatBot = async ({ chatId, defaultPrompt }) => {
-    if (botMap[chatId]) return botMap[chatId];
+const getChat = async ({ chatId, defaultPrompt }) => {
+    if (chatMap[chatId]) return chatMap[chatId];
 
     browser = browser || await puppeteer.launch({headless: !isDev, devtools: isDev});
     const page = await browser.newPage();
@@ -39,8 +39,8 @@ const getChatBot = async ({ chatId, defaultPrompt }) => {
     // `);
     await page.prompt(`请注意，接下来我发给你的每个问题都会带有类似：[一串数字] 的前缀，你可以直接忽略它，不要受到它的干扰。`);
 
-    botMap[chatId] = page;
-    return botMap[chatId];
+    chatMap[chatId] = page;
+    return chatMap[chatId];
 }
 
 const tryLogin = async function(target) {
@@ -100,5 +100,5 @@ const prompt = async function (prompt) {
 }
 
 module.exports = {
-    getChatBot
+    getChat
 };
