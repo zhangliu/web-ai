@@ -14,6 +14,17 @@ const chatMap = {
     '柳芮友爱聊天群': {
         chatId: 'daec4de88abc3268',
         instance: null,
+        preparePrompt: (messages) => `
+            我会给你一个群的聊天记录，假设你也在群里，你需要注意：
+            1. 内容如果出现 @ + 人名，表示这句话是发给这个人的，或者是和这个人相关的
+            2. 你在群里的名字叫：「{msg.to_user_nickname}」
+            3. 你需要根据最近的聊天记录，就最后一个 @ 到你的消息，给出恰当的回复
+            4. 回复的目的是帮助解答问题，或者给予合适的意见，或者活跃群气氛
+            5. 回复需要比较简洁和口语化，内容最好不要超过 50 个字！
+
+            最后，群的聊天记录如下(注意是JSON 格式)：
+            ${messages}
+        `
     }
 };
 
@@ -32,6 +43,7 @@ const getChat = async (chatName) => {
 
     page.tryLogin = tryLogin.bind(page);
     page.prompt = prompt.bind(page);
+    page.preparePrompt = chatInfo.preparePrompt || (value => value);
 
     logger.info(`will goto ${chatUrl}`);
     await page.tryLogin(chatUrl);
