@@ -1,5 +1,3 @@
-const fs = require('fs');
-
 const logger = require('../../utils/logger');
 const { getBrowser } = require('../../utils/puppeteerHelper');
 const { runTimes } = require('../../utils/runHelper');
@@ -12,6 +10,19 @@ const endTag = '[end]';
 const chatMap = {
     '*': {
         chatId: '66d4adf3b9615c7b',
+        instance: null,
+        preparePrompt: (messages, aiName) => `
+            我会给你一个群的聊天记录，假设你也在群里，你的名字叫「${aiName}」，你需要注意：
+            1. 你需要根据最近的聊天记录，就最后一个 @ 到你的消息，给出口语化的合适的回复。
+            2. 回复要简洁，最好不要超过 50 个字。
+            3. 你的回复需必须要以：${startTag} 开头，然后以 ${endTag} 结尾。
+
+            最后，群的聊天记录如下(注意是JSON 格式)：
+            ${messages}
+        `
+    },
+    '消遣娱乐': {
+        chatId: '051e9dd6be875845',
         instance: null,
         preparePrompt: (messages, aiName) => `
             我会给你一个群的聊天记录，假设你也在群里，你的名字叫「${aiName}」，你需要注意：
