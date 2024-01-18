@@ -29,13 +29,14 @@ const getBrowser = async () => {
             })()
         });
         page.waitUrlChange = waitUrlChange.bind(page);
+        page.waitUrlStabilize = waitUrlStabilize.bind(page);
         return page;
     }
 
     return browser;
 }
 
-const waitUrlChange = async function(match, timeout = 300000) {
+const waitUrlChange = async function(match, timeout = 10000) {
     let index = 0;
     while(timeout > index * 1000) {
         index++;
@@ -44,6 +45,16 @@ const waitUrlChange = async function(match, timeout = 300000) {
         if (match.test(url)) return url;
     }
     throw new Error(`wait url change to: ${match} timeout!`);
+}
+
+const waitUrlStabilize = async function(orgUrl, timeout = 3000) {
+    const orgUrlInfo = new URL(orgUrl);
+    await sleep(timeout);
+
+    const newUrl = await this.url();
+    const newUrlInfo = new URL(newUrl);
+
+    return `${orgUrlInfo.origin}${orgUrlInfo.pathname}` === `${newUrlInfo.origin}${newUrlInfo.pathname}`;
 }
 
 module.exports = {

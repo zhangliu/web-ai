@@ -3,6 +3,7 @@ const fs = require('fs');
 const logger = require('../../utils/logger');
 const { getBrowser } = require('../../utils/puppeteerHelper');
 const { runTimes } = require('../../utils/runHelper');
+const { tryLogin } = require('./login');
 
 let browser;
 
@@ -28,8 +29,6 @@ const chatMap = {
     }
 };
 
-const cookiesFile = `${__dirname}/cookies.json`;
-
 const getChat = async (chatName) => {
     const chatInfo = chatMap[chatName] || chatMap['*'];
     if (!chatInfo) throw new Error('未找到合适的聊天对话，请先创建一个对话！');
@@ -39,14 +38,11 @@ const getChat = async (chatName) => {
     browser = await getBrowser()
     const page = await browser.newPage();
 
-    // return await genCookiesFile(page, chatUrl);
-
-    page.tryLogin = tryLogin.bind(page);
     page.prompt = prompt.bind(page);
     page.preparePrompt = chatInfo.preparePrompt || (value => value);
 
     logger.info(`will goto ${chatUrl}`);
-    await page.tryLogin(chatUrl);
+    await tryLogin(page, chatUrl);
 
     await page.waitForSelector('.text-input-field_textarea');
     logger.info(`has find textarea element!`);
@@ -55,24 +51,6 @@ const getChat = async (chatName) => {
 
     chatMap[chatName].instance = page;
     return page;
-}
-
-const tryLogin = async function(target) {
-    if (!fs.existsSync(cookiesFile)) throw new Error('未登录，请联系作者进行登录！');
-    let cookies = JSON.parse(fs.readFileSync(cookiesFile).toString());
-
-    await this.setCookie(...cookies);
-    await this.goto(target);
-}
-
-const genCookiesFile = async function(page, targetUrl) {
-    const loginUrl = `https://accounts.google.com/v3/signin/identifier?continue=${encodeURIComponent(targetUrl)}&followup=${encodeURIComponent(targetUrl)}&flowName=GlifWebSignIn`;
-    await page.goto(loginUrl);
-
-    await page.waitUrlChange(new RegExp('^https://bard.google.com/'));
-    await page.waitForNavigation();
-    cookies = await page.cookies();
-    fs.writeFileSync(cookiesFile, JSON.stringify(cookies, null, 2));
 }
 
 const prompt = async function (prompt) {
@@ -108,5 +86,5 @@ const prompt = async function (prompt) {
 }
 
 module.exports = {
-    getChat
+    getChat,
 };
