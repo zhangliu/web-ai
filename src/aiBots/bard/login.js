@@ -15,6 +15,7 @@ const run = async () => {
         await tryLogin(page, targetUrl);
         console.info('Great! login successful!')
     } finally {
+        await genCookieFile(page);
         browser.close();
     }
 }
