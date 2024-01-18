@@ -6,22 +6,32 @@ const { runTimes } = require('../../utils/runHelper');
 const { tryLogin } = require('./login');
 
 let browser;
+const startTag = '[start]';
+const endTag = '[end]';
 
 const chatMap = {
     '*': {
-        chatId: '4df694d8fb1eb183',
+        chatId: '66d4adf3b9615c7b',
         instance: null,
+        preparePrompt: (messages, aiName) => `
+            我会给你一个群的聊天记录，假设你也在群里，你的名字叫「${aiName}」，你需要注意：
+            1. 内容如果出现 @ + 人名，表示这句话是发给这个人的，或者是和这个人相关的
+            2. 你需要根据最近的聊天记录，就最后一个 @ 到你的消息，给出口语化的合适的回复。
+            3. 你的回复需必须要以：${startTag} 开头，然后以 ${endTag} 结尾。
+
+            最后，群的聊天记录如下(注意是JSON 格式)：
+            ${messages}
+        `
     },
     '柳芮友爱聊天群': {
-        chatId: 'daec4de88abc3268',
+        chatId: 'ba1afa2e749fe2d2',
         instance: null,
-        preparePrompt: (messages) => `
-            我会给你一个群的聊天记录，假设你也在群里，你需要注意：
+        preparePrompt: (messages, aiName) => `
+            我会给你一个群的聊天记录，假设你也在群里，你的名字叫「${aiName}」，你需要注意：
             1. 内容如果出现 @ + 人名，表示这句话是发给这个人的，或者是和这个人相关的
-            2. 你在群里的名字叫：「{msg.to_user_nickname}」
-            3. 你需要根据最近的聊天记录，就最后一个 @ 到你的消息，给出恰当的回复
-            4. 回复的目的是帮助解答问题，或者给予合适的意见，或者活跃群气氛
-            5. 回复需要比较简洁和口语化，内容最好不要超过 50 个字！
+            2. 你需要根据最近的聊天记录，就最后一个 @ 到你的消息，给出口语化的合适的回复。
+            3. 回复要简单，最好不要超过 50 个字，并且幽默，智慧，能够活跃气氛最好。
+            3. 你的回复需必须要以：${startTag} 开头，然后以 ${endTag} 结尾。
 
             最后，群的聊天记录如下(注意是JSON 格式)：
             ${messages}
@@ -30,16 +40,16 @@ const chatMap = {
 };
 
 const getChat = async (chatName) => {
-    const chatInfo = chatMap[chatName] || chatMap['*'];
-    if (!chatInfo) throw new Error('未找到合适的聊天对话，请先创建一个对话！');
-    if (chatInfo.instance) return chatInfo.instance;
+    const chatContext = chatMap[chatName] || chatMap['*'];
+    if (!chatContext) throw new Error('未找到合适的聊天对话，请先创建一个对话！');
+    if (chatContext.instance) return chatContext.instance;
 
-    const chatUrl = `https://bard.google.com/chat/${chatInfo.chatId}`
+    const chatUrl = `https://bard.google.com/chat/${chatContext.chatId}`
     browser = await getBrowser()
     const page = await browser.newPage();
 
     page.prompt = prompt.bind(page);
-    page.preparePrompt = chatInfo.preparePrompt || (value => value);
+    page.preparePrompt = chatContext.preparePrompt || (value => value);
 
     logger.info(`will goto ${chatUrl}`);
     await tryLogin(page, chatUrl);
@@ -49,7 +59,7 @@ const getChat = async (chatName) => {
 
     await page.prompt(`请注意，接下来我发给你的每个问题都会带有类似：[一串数字] 的前缀，你可以直接忽略它，不要受到它的干扰。`);
 
-    chatMap[chatName].instance = page;
+    chatContext.instance = page;
     return page;
 }
 
@@ -78,11 +88,13 @@ const prompt = async function (prompt) {
             const isEnd = !!answerNode.querySelector('message-actions');
             if (!isEnd) continue;
 
-            return answerContentNode.innerText;
+            return answerContentNode.innerText || '';
         }
     }, indexPrefix);
-    logger.info(`get answer: ${result}`)
-    return result;
+    logger.info(`get answer: ${result}`);
+    const startPos = result.indexOf(startTag);
+    const endPos = result.indexOf(endTag);
+    return result.substring(startPos + startTag.length, endPos).trim();
 }
 
 module.exports = {
