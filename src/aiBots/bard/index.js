@@ -66,7 +66,7 @@ const prompt = async function (prompt) {
     const indexPrefix = `[${Date.now()}]`;
     const indexifyPrompt = `${indexPrefix} ${prompt}`.replace(/\n/g, '');
     logger.info(`set prompt: ${indexifyPrompt}`);
-    await this.type('.text-input-field_textarea .textarea:nth-child(1)', indexifyPrompt);
+    await this.type('.text-input-field_textarea .textarea:nth-child(1)', indexifyPrompt, {delay: 0});
     await runTimes(this.click.bind(this, '.send-button-container button[aria-disabled=false]'), 10);
     const result = await this.evaluate(async (indexPrefix) => {
         while(true) {
