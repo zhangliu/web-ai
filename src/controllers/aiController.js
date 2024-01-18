@@ -12,7 +12,7 @@ async function getAnswer(ctx) {
     try {
         const aiBot = (await getChat(chatName));
         const preparedPrompt = aiBot.preparePrompt(prompt, aiName);
-        const answer = await runTimeout(() => aiBot.prompt(preparedPrompt), 30000);
+        const answer = await runTimeout(() => aiBot.prompt(preparedPrompt), 60000);
         return { code: 200, data: answer };
     } catch(err) {
         logger.error(err);
