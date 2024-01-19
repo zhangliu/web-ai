@@ -8,6 +8,7 @@
     "dev": "NODE_ENV=development nodemon server.js",
     "prod": "(pm2 delete server || true) && NODE_ENV=production pm2 start server.js",
     "bardLogin": "node src/aiBots/bard/login.js",
+    "poeLogin": "node src/aiBots/poe/login.js",
     "resetCookie": "rm -rf src/aiBots/bard/cookies.json && vim src/aiBots/bard/cookies.json",
     "baseContainer": "docker run --rm --user root -it --shm-size=512m -p 6901:6901 -p 3000:3000 -e VNC_PW=admin --name base-ai-container kasmweb/ubuntu-jammy-desktop:1.14.0-rolling",
     "createZlImg": "(docker rmi zl-ai-img || true) && cd ./ai-img && docker build -t zl-ai-img .",

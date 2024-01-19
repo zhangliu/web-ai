@@ -3,9 +3,7 @@ const fs = require('fs');
 const {getBrowser} = require('../../utils/puppeteerHelper');
 
 const cookiesFile = `${__dirname}/cookies.json`;
-const accoutUrl = 'https://myaccount.google.com';
-const loginUrl = 'https://accounts.google.com';
-const targetUrl = 'https://bard.google.com';
+const targetUrl = 'https://poe.com/chat/2izduy32d808lc12tqh';
 
 const run = async () => {
     const browser = await getBrowser();
@@ -37,15 +35,14 @@ const tryLogin = async (page, target) => {
 }
 
 const isLogin = async (page) => {
-    await page.goto(accoutUrl);
-    // await page.waitForNavigation();
-    return await page.waitUrlStabilize(accoutUrl);
+    await page.goto('https://poe.com/');
+    return await page.waitUrlStabilize('https://poe.com/');
 }
 
 const genCookieFile = async function(page) {
     console.warn('please login by manual and gen cookie file...');
-    await page.goto(loginUrl);
-    await page.waitUrlChange(new RegExp(`^${accoutUrl}`), 60000 * 3);
+    await page.goto('https://poe.com/login');
+    await page.waitUrlChange(new RegExp(`^https://poe.com/$`), 60000 * 3);
     // await page.waitForNavigation();
 
     cookies = await page.cookies();

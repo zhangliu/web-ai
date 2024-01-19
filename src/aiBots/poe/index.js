@@ -1,73 +1,43 @@
-const fs = require('fs');
 const logger = require('../../utils/logger');
-const { sleep } = require('../../utils/time');
-const puppeteer = require('puppeteer');
-const isDev = process.env.NODE_ENV === 'development';
+const { getBrowser } = require('../../utils/puppeteerHelper');
+const { tryLogin } = require('./login');
 
-let browser;
-const chatMap = {};
-const userAgent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36';
+const chatMap = {
+    '*': {
+        chatId: '2izduy32d808lc12tqh',
+        instance: null,
+        preparePrompt: (messages, aiName) => `
+            有个群的聊天记录如下(注意是JSON 格式)： 
+            ${messages}
 
-const getChat = async ({ chatId, defaultPrompt }) => {
-    if (chatMap[chatId]) return chatMap[chatId];
+            现在假设你是${aiName}，你觉得最后一个 @ 你的消息是啥，针对这个消息帮忙回复解答一下，注意：
+            1. 回复要简洁，口语化，最好不要超过 50 个字。
+        `
+    }
+};
 
-    browser = browser || await puppeteer.launch({headless: !isDev, devtools: isDev});
+const getChat = async (chatName) => {
+    const chatContext = chatMap[chatName] || chatMap['*'];
+    if (!chatContext) throw new Error('未找到合适的聊天对话，请先创建一个对话！');
+    if (chatContext.instance) return chatContext.instance;
+
+    const chatUrl = `https://poe.com/chat/${chatContext.chatId}`
+    const browser = await getBrowser()
     const page = await browser.newPage();
-    await page.setUserAgent(userAgent);
 
     page.prompt = prompt.bind(page);
-    page.tryLogin = tryLogin.bind(page);
+    page.preparePrompt = chatContext.preparePrompt || (value => value);
 
-    logger.info(`will open page: https://poe.com/chat/${chatId}`);
-    await page.tryLogin(`https://poe.com/chat/${chatId}`);
-
-    // 初始化一些工具函数
-    page.evaluate(() => {
-        (() => {
-            const sleep = duration => new Promise(r => setTimeout(r, duration));
-            window.ai = {};
-            window.ai.utils = { sleep };
-        })()
-    });
+    logger.info(`will goto ${chatUrl}`);
+    await tryLogin(page, chatUrl);
 
     await page.waitForSelector('footer textarea');
     logger.info(`has find footer textarea element!`);
 
-    // await page.prompt(`
-    //     ${defaultPrompt || ''};
-    //     请注意，接下来我发给你的每个问题都会带有类似：[一串数字] 的前缀，你可以直接忽略它，不要受到它的干扰。
-    // `);
     await page.prompt(`请注意，接下来我发给你的每个问题都会带有类似：[一串数字] 的前缀，你可以直接忽略它，不要受到它的干扰。`);
 
-    chatMap[chatId] = page;
-    return chatMap[chatId];
-}
-
-const tryLogin = async function(target) {
-    const cookiesFile = `${__dirname}/cookies.json`;
-    const loginUrl = 'https://poe.com/login';
-
-    // if (!fs.existsSync(cookiesFile)) fs.writeFileSync(cookiesFile, JSON.stringify([]));
-    if (!fs.existsSync(cookiesFile)) throw new Error('未登录，请联系作者进行登录！');
-    let cookies = JSON.parse(fs.readFileSync(cookiesFile).toString());
-
-    await this.setCookie(...cookies);
-    await this.goto(target);
-
-    let url = await this.url();
-    if (!url.startsWith(loginUrl)) return;
-
-    while(true) {
-        await sleep(3000);
-        const url = await this.url();
-        logger.info(`get page url: ${url}`);
-        if (!url.startsWith(loginUrl)) break;
-    }
-
-    cookies = await this.cookies();
-    // TODO 需要剔除掉 cf_clearance 这个 cookie，不然恢复 cookie 后会登录失败。
-    cookies = cookies.filter(item => item.name !== 'cf_clearance');
-    fs.writeFileSync(cookiesFile, JSON.stringify(cookies));
+    chatContext.instance = page;
+    return page;
 }
 
 const prompt = async function (prompt) {

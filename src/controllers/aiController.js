@@ -1,4 +1,5 @@
-const { getChat } = require('../aiBots/bard/index');
+// const { getChat } = require('../aiBots/bard/index');
+const { getChat } = require('../aiBots/poe/index');
 const logger = require('../utils/logger');
 const { runTimeout } = require('../utils/runHelper');
   

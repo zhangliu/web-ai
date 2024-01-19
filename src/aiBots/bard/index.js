@@ -3,7 +3,6 @@ const { getBrowser } = require('../../utils/puppeteerHelper');
 const { runTimes } = require('../../utils/runHelper');
 const { tryLogin } = require('./login');
 
-let browser;
 const startTag = '[start]';
 const endTag = '[end]';
 
@@ -52,7 +51,7 @@ const getChat = async (chatName) => {
     if (chatContext.instance) return chatContext.instance;
 
     const chatUrl = `https://bard.google.com/chat/${chatContext.chatId}`
-    browser = await getBrowser()
+    const browser = await getBrowser()
     const page = await browser.newPage();
 
     page.prompt = prompt.bind(page);
