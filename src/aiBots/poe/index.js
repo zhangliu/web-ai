@@ -5,6 +5,7 @@ const { tryLogin } = require('./login');
 const chatMap = {
     '*': {
         chatId: '2izduy32d808lc12tqh',
+        replayNoAt: true,
         instance: null,
         preparePrompt: (messages, aiName) => `
             有个群的聊天记录如下(注意是JSON 格式)： 
@@ -49,6 +50,7 @@ const getChat = async (chatName) => {
     const browser = await getBrowser()
     const page = await browser.newPage();
 
+    page.chatContext = chatContext;
     page.prompt = prompt.bind(page);
     page.preparePrompt = chatContext.preparePrompt || (value => value);
 

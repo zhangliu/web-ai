@@ -12,6 +12,8 @@ async function getAnswer(ctx) {
     logger.info(`will handle for chat: ${chatName}, prompt: ${prompt}`);
     try {
         const aiBot = (await getChat(chatName));
+        if (!aiBot.chatContext.replayNoAt) return {code: 400}; // 不支持回复非 @ 的消息
+
         const preparedPrompt = aiBot.preparePrompt(prompt, aiName);
         const answer = await runTimeout(() => aiBot.prompt(preparedPrompt), 60000);
         return { code: 200, data: answer };
